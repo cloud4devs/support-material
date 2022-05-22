@@ -63,6 +63,20 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :observability, Observability.PromEx,
+    manual_metrics_start_delay: :no_delay,
+    drop_metrics_group: [],
+    grafana: [
+      host: System.fetch_env!("GRAFANA_URL"),
+      auth_token: System.fetch_env!("GRAFANA_AUTH_TOKEN"),
+      upload_dashboards_on_start: true,
+      folder_name: System.fetch_env!("GRAFANA_DASHBOARD_FOLDER_NAME"),
+      annotate_app_lifecycle: true
+    ],
+    prometheus_datasource_id: System.fetch_env!("PROMETHEUS_DATA_SOURCE_ID"),
+    prometheus_default_selected_interval:
+      System.fetch_env!("PROMETHEUS_DEFAULT_SELECTED_INTERVAL")
+
   # ## Configuring the mailer
   #
   # In production you need to configure the mailer to use a different adapter.

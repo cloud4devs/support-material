@@ -77,8 +77,8 @@ defmodule Observability.PromEx do
   @impl true
   def dashboard_assigns do
     [
-      datasource_id: "Prometheus",
-      default_selected_interval: "30s"
+      datasource_id: prometheus_datasource_id(),
+      default_selected_interval: prometheus_default_selected_interval()
     ]
   end
 
@@ -98,5 +98,17 @@ defmodule Observability.PromEx do
       # Add your dashboard definitions here with the format: {:otp_app, "path_in_priv"}
       # {:observability, "/grafana_dashboards/user_metrics.json"}
     ]
+  end
+
+  def prometheus_datasource_id do
+    :dict_application
+    |> Application.get_env(__MODULE__)
+    |> Keyword.fetch!(:prometheus_datasource_id)
+  end
+
+  def prometheus_default_selected_interval do
+    :dict_application
+    |> Application.get_env(__MODULE__)
+    |> Keyword.fetch!(:prometheus_default_selected_interval)
   end
 end

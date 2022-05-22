@@ -69,4 +69,6 @@ config :observability, Observability.PromEx,
     upload_dashboards_on_start: true,
     folder_name: "ObservabilityApp",
     annotate_app_lifecycle: true
-  ]
+  ],
+  prometheus_datasource_id: "Prometheus",
+  prometheus_default_selected_interval: "30s"
