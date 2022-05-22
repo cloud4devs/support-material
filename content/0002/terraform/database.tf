@@ -4,6 +4,7 @@ resource "aws_db_instance" "default" {
   engine_version         = "13.4"
   instance_class         = "db.t3.micro"
   db_name                = "observability"
+  identifier             = "observability"
   username               = "observability"
   password               = "m4rM5etY8zT9AcDuq24m"
   skip_final_snapshot    = true
@@ -11,12 +12,12 @@ resource "aws_db_instance" "default" {
   multi_az               = false
   vpc_security_group_ids = [aws_security_group.db_security_group.id]
   db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
-  publicly_accessible = false
+  publicly_accessible    = false
 }
 
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "observability-db-subnet-group"
-  subnet_ids = data.aws_subnets.default.ids
+  subnet_ids = [data.aws_subnets.default.ids[0], data.aws_subnets.default.ids[1]]
 }
 
 resource "aws_security_group" "db_security_group" {

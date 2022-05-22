@@ -1,5 +1,5 @@
 resource "aws_iam_role" "node_group_role" {
-  name = "cloud4devs-cloud4devs-role"
+  name = "cloud4devs-role"
 
   assume_role_policy = <<POLICY
 {
@@ -36,7 +36,7 @@ resource "aws_eks_node_group" "this" {
   cluster_name    = "cloud4devs"
   node_group_name = "cloud4devs"
   node_role_arn   = aws_iam_role.node_group_role.arn
-  subnet_ids      = data.aws_subnets.default.ids
+  subnet_ids      = [data.aws_subnets.default.ids[0], data.aws_subnets.default.ids[1]]
   instance_types  = ["t3.micro"]
 
   scaling_config {
@@ -49,5 +49,6 @@ resource "aws_eks_node_group" "this" {
     aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
+    aws_eks_cluster.this,
   ]
 }
