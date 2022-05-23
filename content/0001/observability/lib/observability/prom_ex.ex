@@ -101,13 +101,13 @@ defmodule Observability.PromEx do
   end
 
   def prometheus_datasource_id do
-    :dict_application
+    :observability
     |> Application.get_env(__MODULE__)
     |> Keyword.fetch!(:prometheus_datasource_id)
   end
 
   def prometheus_default_selected_interval do
-    :dict_application
+    :observability
     |> Application.get_env(__MODULE__)
     |> Keyword.fetch!(:prometheus_default_selected_interval)
   end
