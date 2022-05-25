@@ -26,3 +26,29 @@ terraform plan -out=plan
 ```
 terraform apply plan
 ```
+
+## Configurar credencias do Kubernetes
+
+```
+aws eks update-kubeconfig --region us-east-1 --name cloud4devs
+```
+
+## Instalar a kube-prometheus Stack
+
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+```
+helm repo update
+```
+
+```
+helm install prometheus-stack prometheus-community/kube-prometheus-stack --set grafana.service.type=LoadBalancer
+```
+
+### Senha Default do Grafana
+
+```
+login: admin
+password: prom-operator
+```

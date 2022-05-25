@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+ name: observability
+ labels:
+   release: prometheus-stack
+spec:
+  endpoints:
+  - path: /metrics
+    port: web
+  jobLabel: observability-metrics
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: observability

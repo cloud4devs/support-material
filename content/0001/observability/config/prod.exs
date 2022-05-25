@@ -46,3 +46,8 @@ config :logger, level: :info
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
+
+config :observability, ObservabilityWeb.Endpoint,
+  http: [port: 4000],
+  transport_options: [socket_opts: [:inet6]],
+  server: true

@@ -1,0 +1,65 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+    meta.helm.sh/release-name: prometheus-stack
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2022-05-23T03:58:11Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: prometheus-stack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 8.5.0
+    helm.sh/chart: grafana-6.29.2
+  managedFields:
+  - apiVersion: monitoring.coreos.com/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:meta.helm.sh/release-name: {}
+          f:meta.helm.sh/release-namespace: {}
+        f:labels:
+          .: {}
+          f:app.kubernetes.io/instance: {}
+          f:app.kubernetes.io/managed-by: {}
+          f:app.kubernetes.io/name: {}
+          f:app.kubernetes.io/version: {}
+          f:helm.sh/chart: {}
+      f:spec:
+        .: {}
+        f:endpoints: {}
+        f:jobLabel: {}
+        f:namespaceSelector:
+          .: {}
+          f:matchNames: {}
+        f:selector:
+          .: {}
+          f:matchLabels:
+            .: {}
+            f:app.kubernetes.io/instance: {}
+            f:app.kubernetes.io/name: {}
+    manager: helm
+    operation: Update
+    time: "2022-05-23T03:58:11Z"
+  name: observability
+  namespace: default
+  resourceVersion: "45925"
+  uid: 362b9098-43f3-4dd2-ab24-d567db417ce7
+spec:
+  endpoints:
+  - honorLabels: true
+    path: /metrics
+    port: http-web
+    scheme: http
+    scrapeTimeout: 30s
+  jobLabel: prometheus-stack
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: prometheus-stack
+      app.kubernetes.io/name: grafana
