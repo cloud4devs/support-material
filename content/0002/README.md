@@ -84,6 +84,9 @@ kubectl delete -f .
 
 ## Deletar os recursos do Terraform
 
+```
+cd ../terraform
+```
 
 ```
 terraform plan -out=plan -destroy
