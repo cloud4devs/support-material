@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: observability
+  name: observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: observability
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: observability
+    spec:
+      containers:
+      - image: cloud4devs/observability-app
+        name: observability-app
+        imagePullPolicy: Always
+        env:
+        - name: DATABASE_URL
+          value: "postgres://observability:m4rM5etY8zT9AcDuq24m@HOST_URL:5432/observability"
+        - name: SECRET_KEY_BASE
+          value: "Ud7N82/OijPB2AJ/7K39kBwF5lzh6OaeHvoXEX07SsmdF3WRU265twSCjIDoMHP2"
+        - name: GRAFANA_URL
+          value: http://prometheus-stack-grafana
+        - name: GRAFANA_AUTH_TOKEN
+          value: "TOKEN"
+        - name: GRAFANA_DASHBOARD_FOLDER_NAME
+          value: "observability"
+        - name: PROMETHEUS_DATA_SOURCE_ID
+          value: "Prometheus"
+        - name: PROMETHEUS_DEFAULT_SELECTED_INTERVAL
+          value: "30s"
