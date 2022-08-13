@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  key: Y2xvdWQ0ZGV2cw==
+  kongCredType: a2V5LWF1dGg=
+kind: Secret
+metadata:
+  name: cloud4devs-key

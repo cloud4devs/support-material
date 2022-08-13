@@ -1,0 +1,73 @@
+apiVersion: v1
+data:
+  nginx.conf: |
+    client_max_body_size 100M;
+
+    server {
+
+        listen                      80;
+        server_name                 localhost;
+
+        location /estados {
+
+            # Simple requests
+            if ($request_method ~* "(GET|POST|DELETE|PUT)") {
+                add_header "Access-Control-Allow-Origin"  * always;
+                add_header              Content-Type application/json always;
+            }
+
+            # Preflighted requests
+            if ($request_method = OPTIONS ) {
+                add_header "Access-Control-Allow-Origin"  * always;
+                add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS, HEAD" always;
+                add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Requested-With, Content-Type, Accept" always;
+                return 200;
+            }
+
+            return 200              '{ "estados":["Maranhão (MA)","Piauí (PI)","Ceará (CE)","Rio Grande do Norte (RN)","Paraíba (PB)","Pernambuco (PE)","Alagoas (AL)","Sergipe (SE)","Bahia (BA)"]}';
+        }
+    }
+kind: ConfigMap
+metadata:
+  name: estados
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: estados
+  name: estados
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: estados
+  template:
+    metadata:
+      labels:
+        app: estados
+    spec:
+      containers:
+      - image: nginx:1.21.3
+        name: nginx
+        volumeMounts:
+        - name: data
+          mountPath: "/etc/nginx/conf.d"
+      volumes:
+        - name: data
+          configMap:
+            name: estados
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: estados
+  name: estados
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: estados
