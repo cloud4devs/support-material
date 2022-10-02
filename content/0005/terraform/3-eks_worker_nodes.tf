@@ -51,4 +51,10 @@ resource "aws_eks_node_group" "this" {
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.this,
   ]
+
+  # Tags used in Cluster Autoscaler 
+  tags = {
+    "k8s.io/cluster-autoscaler/${aws_eks_cluster.this.name}" = "owned"
+    "k8s.io/cluster-autoscaler/enabled"                      = "true"
+  }
 }
