@@ -37,11 +37,11 @@ resource "aws_eks_node_group" "this" {
   node_group_name = "cloud4devs"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = [data.aws_subnets.default.ids[0], data.aws_subnets.default.ids[1]]
-  instance_types  = ["t3.small"]
+  instance_types  = ["t3.medium"]
 
   scaling_config {
     desired_size = 1
-    max_size     = 2
+    max_size     = 5
     min_size     = 0
   }
 
