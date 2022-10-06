@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -14,14 +14,12 @@ spec:
       labels:
         app: nginx
     spec:
-#      nodeSelector:
-#        hardened: "true"
       containers:
       - name: nginx
         image: nginx
         resources:
           requests:
             cpu: "1"
-            memory: 1Gi
+            memory: 2Gi
         ports:
         - containerPort: 80

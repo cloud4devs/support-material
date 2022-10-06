@@ -5,6 +5,59 @@ metadata:
 spec:
   ttlSecondsAfterEmpty: 60 # scale down nodes after 60 seconds without workloads (excluding daemons)
   ttlSecondsUntilExpired: 604800 # expire nodes after 7 days (in seconds) = 7 * 60 * 60 * 24
+  weight: 10
+  limits:
+    resources:
+      cpu: 100 # limit to 100 CPU cores
+  requirements:
+    # Include general purpose instance families
+    - key: karpenter.k8s.aws/instance-family
+      operator: In
+      values: [t3]
+    - key: karpenter.k8s.aws/instance-size
+      operator: In
+      values: [medium]
+  provider:
+    subnetSelector:
+      Name: "karpenter"
+    securityGroupSelector:
+      kubernetes.io/cluster/cloud4devs: owned
+---
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: label-1
+spec:
+  ttlSecondsAfterEmpty: 60 # scale down nodes after 60 seconds without workloads (excluding daemons)
+  ttlSecondsUntilExpired: 604800 # expire nodes after 7 days (in seconds) = 7 * 60 * 60 * 24
+  labels:
+    hardened: "true"
+  limits:
+    resources:
+      cpu: 100 # limit to 100 CPU cores
+  requirements:
+    # Include general purpose instance families
+    - key: karpenter.k8s.aws/instance-family
+      operator: In
+      values: [t3]
+    - key: karpenter.k8s.aws/instance-size
+      operator: In
+      values: [medium]
+  provider:
+    subnetSelector:
+      Name: "karpenter"
+    securityGroupSelector:
+      kubernetes.io/cluster/cloud4devs: owned
+---
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: label-2
+spec:
+  ttlSecondsAfterEmpty: 60 # scale down nodes after 60 seconds without workloads (excluding daemons)
+  ttlSecondsUntilExpired: 604800 # expire nodes after 7 days (in seconds) = 7 * 60 * 60 * 24
+  labels:
+    hardened: "false"
   limits:
     resources:
       cpu: 100 # limit to 100 CPU cores

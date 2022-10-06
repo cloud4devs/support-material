@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-selector-2
+  labels:
+    app: nginx-selector-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-selector-2
+  template:
+    metadata:
+      labels:
+        app: nginx-selector-2
+    spec:
+      nodeSelector:
+        hardened: "false"
+      containers:
+      - name: nginx-selector-2
+        image: nginx
+        resources:
+          requests:
+            cpu: "1"
+            memory: 2Gi
+        ports:
+        - containerPort: 80
