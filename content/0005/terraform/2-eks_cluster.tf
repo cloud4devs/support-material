@@ -68,4 +68,9 @@ resource "aws_eks_cluster" "this" {
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.cluster_AmazonEKSVPCResourceController,
   ]
+
+  # Configure file ~/.kube/config with cluster credentials
+  provisioner "local-exec" {
+    command = "aws eks --region us-east-1 update-kubeconfig --name cloud4devs"
+  }
 }

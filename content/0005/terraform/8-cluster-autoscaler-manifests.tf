@@ -13,6 +13,9 @@ metadata:
     eks.amazonaws.com/role-arn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AmazonEKSClusterAutoscalerRole"
   namespace: kube-system
 YAML
+  depends_on = [
+    aws_eks_node_group.this
+  ]
 }
 
 resource "kubectl_manifest" "cluster_autoscaler_cluster_role" {

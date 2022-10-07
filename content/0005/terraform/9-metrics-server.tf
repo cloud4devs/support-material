@@ -8,6 +8,9 @@ metadata:
   name: metrics-server
   namespace: kube-system
 YAML
+  depends_on = [
+    aws_eks_node_group.this
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_cluster_role_1" {
