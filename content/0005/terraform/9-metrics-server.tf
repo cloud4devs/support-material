@@ -32,6 +32,9 @@ rules:
   - list
   - watch
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_cluster_role_2" {
@@ -59,6 +62,10 @@ rules:
   - list
   - watch
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_role_binding" {
@@ -79,6 +86,11 @@ subjects:
   name: metrics-server
   namespace: kube-system
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+    kubectl_manifest.metrics_server_cluster_role_2,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_cluster_role_binding_1" {
@@ -98,6 +110,12 @@ subjects:
   name: metrics-server
   namespace: kube-system
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+    kubectl_manifest.metrics_server_cluster_role_2,
+    kubectl_manifest.metrics_server_role_binding,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_cluster_role_binding_2" {
@@ -117,6 +135,13 @@ subjects:
   name: metrics-server
   namespace: kube-system
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+    kubectl_manifest.metrics_server_cluster_role_2,
+    kubectl_manifest.metrics_server_role_binding,
+    kubectl_manifest.metrics_server_cluster_role_binding_1,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_service" {
@@ -137,6 +162,14 @@ spec:
   selector:
     k8s-app: metrics-server
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+    kubectl_manifest.metrics_server_cluster_role_2,
+    kubectl_manifest.metrics_server_role_binding,
+    kubectl_manifest.metrics_server_cluster_role_binding_1,
+    kubectl_manifest.metrics_server_cluster_role_binding_2,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_deployment" {
@@ -209,6 +242,15 @@ spec:
       - emptyDir: {}
         name: tmp-dir
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+    kubectl_manifest.metrics_server_cluster_role_2,
+    kubectl_manifest.metrics_server_role_binding,
+    kubectl_manifest.metrics_server_cluster_role_binding_1,
+    kubectl_manifest.metrics_server_cluster_role_binding_2,
+    kubectl_manifest.metrics_server_service,
+  ]
 }
 
 resource "kubectl_manifest" "metrics_server_api_service" {
@@ -229,4 +271,14 @@ spec:
   version: v1beta1
   versionPriority: 100
 YAML
+  depends_on = [
+    kubectl_manifest.metrics_server_service_account,
+    kubectl_manifest.metrics_server_cluster_role_1,
+    kubectl_manifest.metrics_server_cluster_role_2,
+    kubectl_manifest.metrics_server_role_binding,
+    kubectl_manifest.metrics_server_cluster_role_binding_1,
+    kubectl_manifest.metrics_server_cluster_role_binding_2,
+    kubectl_manifest.metrics_server_service,
+    kubectl_manifest.metrics_server_deployment,
+  ]
 }
