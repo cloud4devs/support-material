@@ -20,6 +20,6 @@ spec:
         resources:
           requests:
             cpu: "1"
-            memory: 2Gi
+            memory: 3Gi
         ports:
         - containerPort: 80

@@ -5,7 +5,6 @@ metadata:
 spec:
   ttlSecondsAfterEmpty: 60 # scale down nodes after 60 seconds without workloads (excluding daemons)
   ttlSecondsUntilExpired: 604800 # expire nodes after 7 days (in seconds) = 7 * 60 * 60 * 24
-  weight: 10
   limits:
     resources:
       cpu: 100 # limit to 100 CPU cores
