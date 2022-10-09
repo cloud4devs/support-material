@@ -18,7 +18,7 @@ kubectl logs -f -l app=cluster-autoscaler -n kube-system
 kubectl scale deploy cluster-autoscaler --replicas=0 -n kibe-system
 ```
 
-### Acompanhar logs do Cluster Autoscaler
+### Acompanhar logs do Karpenter
 
 ```
 kubectl logs -f -l app.kubernetes.io/name=karpenter --container controller -n karpenter
