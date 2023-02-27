@@ -38,5 +38,5 @@ ssh -i server-instance-key ec2-user@INSTANCE-IP;
 
 7. Executar ```sudo su```;
 
-8. Seguir passos do próprio.
+8. Seguir passos do próprio site.
 
